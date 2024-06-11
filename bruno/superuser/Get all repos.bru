@@ -1,0 +1,19 @@
+meta {
+  name: Get all repos
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{base}}/api/repository/
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Token {{token}}
+}
+
+vars:post-response {
+  repo: res.body[0].id
+}

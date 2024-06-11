@@ -1,0 +1,21 @@
+meta {
+  name: Patch repo
+  type: http
+  seq: 6
+}
+
+patch {
+  url: {{base}}/api/repository/{{created_repo}}/
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Token {{token}}
+}
+
+body:json {
+  {
+    "stars": 1234
+  }
+}

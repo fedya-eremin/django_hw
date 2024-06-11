@@ -1,0 +1,22 @@
+meta {
+  name: Update repo
+  type: http
+  seq: 5
+}
+
+put {
+  url: {{base}}/api/repository/{{created_repo}}/
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Token {{token}}
+}
+
+body:json {
+  {
+    "name": "New repo updated",
+    "stars": "123"
+  }
+}

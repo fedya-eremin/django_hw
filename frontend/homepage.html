@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="container-md">
+    {% for repo in repos %}
+      <div class="card p-3">
+        <h3 class="card-title">{{repo.name}}</h3>
+        <p class="card-text">{{repo.description}}</p>
+        <p class="card-text">Stars: {{repo.stars}}</p>
+        <button 
+          class="btn btn-primary"
+          data-bs-toggle="modal"
+          data-bs-target="#{{repo.id}}"
+        >
+          See more
+        </button>
+      </div>
+      <div class="modal fade" id="{{repo.id}}">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title">{{repo.name}}</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p>Description: {{repo.description}}</p>
+              <p>Stars: {{repo.stars}}</p>
+              <h3>Developers:</h3>
+              <ul class="list-group">
+                {% for developer in repo.developers.all %}
+                <li class="list-group-item">{{developer.name}}</li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock%}

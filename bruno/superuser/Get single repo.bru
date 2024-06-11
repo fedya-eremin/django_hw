@@ -1,0 +1,15 @@
+meta {
+  name: Get single repo
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{base}}/api/repository/{{repo}}/
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Token {{token}}
+}

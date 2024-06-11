@@ -1,0 +1,15 @@
+meta {
+  name: Delete repo
+  type: http
+  seq: 7
+}
+
+delete {
+  url: {{base}}/api/repository/{{created_repo}}/
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Token {{token}}
+}
