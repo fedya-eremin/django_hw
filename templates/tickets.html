@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container-md">
+  {% for ticket in tickets %}
+  <div class="card p-3">
+    <h3 class="card-title">Repository: {{ticket.repository}}</h3>
+    <h5 class="card-title">{{ticket.name}}</h5>
+    <p class="card-text">Text: {{ticket.description}}</p>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

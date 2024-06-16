@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container-md">
+  {% for dev in devs %}
+  <div class="card p-3">
+    <h3 class="card-title">User: {{dev.name}}</h3>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

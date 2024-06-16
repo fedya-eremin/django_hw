@@ -1,0 +1,49 @@
+{% load static %}
+{% load rest_framework %}
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="keywords" content="youdontneedit" />
+  <meta name="description" content="somedesc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BadPractices</title>
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+  <script src="{% static 'js/bootstrap.min.js' %}"></script>
+</head>
+
+<body>
+  <header class="d-flex justify-content-center py-3 border-bottom mb-3">
+    <ul class="nav nav-pills">
+      <li class="nav-item">
+        <a href="/" class="nav-link">Home</a>
+      </li>
+      <li class="nav-item">
+        <a href="/devs" class="nav-link">Devs</a>
+      </li>
+      <li class="nav-item">
+        <a href="/tickets" class="nav-link">Tickets</a>
+      </li>
+      <li class="nav-item">
+        {% if user.username %}
+      <li class="nav-item">
+        <a href="/profile" class="nav-link">Profile: {{ user.developer.name }}</a>
+      </li>
+      <li class="nav-item">
+        <form method="post" action="{% url 'repository:logout' %}">
+          {% csrf_token %}
+          <button type="submit" class="nav-link">Log out</button>
+        </form>
+      </li>
+      {% else %}
+      <li class="nav-item">
+        <a href="/login" class="nav-link">Log in</a>
+      </li>
+      {% endif %}
+      </li>
+    </ul>
+  </header>
+  {% block content %}{% endblock %}
+</body>
+
+</html>

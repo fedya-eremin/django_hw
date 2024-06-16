@@ -1,5 +1,6 @@
 from django.views.generic import TemplateView
 from rest_framework.authentication import TokenAuthentication
+from rest_framework.authtoken.models import Token
 from rest_framework.permissions import SAFE_METHODS, BasePermission
 from rest_framework.viewsets import ModelViewSet
 
@@ -39,6 +40,9 @@ class HomePage(TemplateView):
     def get_context_data(self, *args, **kwargs):
         context = super(HomePage, self).get_context_data(**kwargs)
         context["repos"] = Repository.objects.all()
+        context["serializer"] = RepositorySerializer
+        if self.request.user.is_authenticated:
+            context["token"] = Token.objects.get(user=self.request.user)
         return context
 
 
@@ -53,3 +57,21 @@ class DevsPage(TemplateView):
 
 class ProfilePage(TemplateView):
     template_name = "profile.html"
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(ProfilePage, self).get_context_data(**kwargs)
+        context["repos"] = Repository.objects.filter(
+            developers=self.request.user.developer
+        )
+        if self.request.user.is_authenticated:
+            context["token"] = Token.objects.get(user=self.request.user)
+        return context
+
+
+class TicketsPage(TemplateView):
+    template_name = "tickets.html"
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(TicketsPage, self).get_context_data(**kwargs)
+        context["tickets"] = Ticket.objects.all()
+        return context

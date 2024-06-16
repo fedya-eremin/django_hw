@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% load rest_framework %}
+{% block content %}
+<div class="container-md">
+  {% if user.is_authenticated %}
+  <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add-repo">
+    Add repository
+  </button>
+  {% endif %}
+  <div class="modal fade" id="add-repo">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title">Add repository</h2>
+        </div>
+        <div class="modal-body">
+          <form id="add-repo-form">
+            {% csrf_token %}
+            {% render_form serializer %}
+            <button class="btn btn-primary" type="submit">Add</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% for repo in repos %}
+  <div class="card p-3">
+    <h3 class="card-title">{{repo.name}}</h3>
+    <p class="card-text">{{repo.description}}</p>
+    <p class="card-text">Stars: {{repo.stars}}</p>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#{{repo.id}}">
+      See more
+    </button>
+  </div>
+  <div class="modal fade" id="{{repo.id}}">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title">{{repo.name}}</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Description: {{repo.description}}</p>
+          <p>Stars: {{repo.stars}}</p>
+          <h3>Developers:</h3>
+          <ul class="list-group">
+            {% for developer in repo.developers.all %}
+            <li class="list-group-item">{{developer.name}}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+<script>
+  const addRepoForm = document.querySelector("#add-repo-form");
+  addRepoForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(addRepoForm);
+    formData.append("developer", "{{user.developer.id}}")
+    const formDataEntries = Array.from(formData.entries());
+    const requestBody = formDataEntries.map(([key, value]) =>
+      `${encodeURIComponent(key)}=${encodeURIComponent(value)}`).join('&');
+
+    fetch("{% url 'repository:repository-list' %}", {
+      method: "POST",
+      headers: {
+        "X-CSRFToken": document.querySelector('[name="csrfmiddlewaretoken"]').value,
+        "Authorization": "Token " + "{{ token | safe }}",
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: requestBody,
+    });
+  });
+</script>
+{% endblock%}

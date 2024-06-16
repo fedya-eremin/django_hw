@@ -5,10 +5,11 @@ from rest_framework.routers import DefaultRouter
 from repository import views
 
 router = DefaultRouter()
-router.register(r"repository", views.RepositoryViewSet)
+router.register(r"repository", views.RepositoryViewSet, basename="repository")
 router.register(r"developer", views.DeveloperViewSet)
 router.register(r"ticket", views.TicketViewSet)
 
+app_name = "repository"
 urlpatterns = [
     path("api/", include(router.urls)),
     path("", views.HomePage.as_view(), name="home"),
@@ -20,4 +21,5 @@ urlpatterns = [
         name="logout",
     ),
     path("profile/", views.ProfilePage.as_view()),
+    path("tickets/", views.TicketsPage.as_view()),
 ]

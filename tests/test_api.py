@@ -1,10 +1,10 @@
+from django.contrib.auth.models import User
 from django.test import TestCase
-from rest_framework.test import APIClient
 from rest_framework import status
 from rest_framework.authtoken.models import Token
-from django.contrib.auth.models import User
+from rest_framework.test import APIClient
 
-from repository.models import Repository, Developer
+from repository.models import Repository
 
 
 def create_api_test(model_class, url, creation_attrs):
@@ -100,9 +100,4 @@ RepositoryApiTest = create_api_test(
     Repository,
     "/api/repository/",
     {"name": "A", "description": "AAA", "stars": 1},
-)
-DeveloperApiTest = create_api_test(
-    Developer,
-    "/api/developer/",
-    {"name": "A", "user_id": User.objects.first().id},
 )

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="container-md">
+  <p>Username: {{user.developer.name}}</p>
+  {% for repo in repos %}
+  <div class="card p-3">
+    <h3 class="card-title">{{repo.name}}</h3>
+    <p class="card-text">{{repo.description}}</p>
+    <p class="card-text">Stars: {{repo.stars}}</p>
+    <button class="btn btn-secondary" onclick="deleteRepo('{{repo.id}}')">Delete</button>
+  </div>
+  {% endfor %}
+</div>
+<script>
+  function deleteRepo(repoId) {
+    fetch("{% url 'repository:repository-list' %}" + repoId, {
+      method: "DELETE",
+      headers: {
+        "Authorization": "Token " + "{{ token | safe }}"
+      }
+    })
+  }
+</script>
+{% endblock content %}

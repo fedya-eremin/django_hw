@@ -52,7 +52,7 @@ ROOT_URLCONF = "django_hw.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / "frontend"],
+        "DIRS": [BASE_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -90,9 +90,6 @@ SWAGGER_SETTINGS = {
 
 WSGI_APPLICATION = "django_hw.wsgi.application"
 
-
-# Database
-# https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
     "default": {
@@ -151,6 +148,7 @@ USE_TZ = True
 
 
 STATIC_URL = "static/"
+STATICFILES_DIRS = [BASE_DIR / "static"]
 COMPRESS_ROOT = BASE_DIR / "static"
 COMPRESS_ENABLED = True
 
